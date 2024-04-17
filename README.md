@@ -1,6 +1,3 @@
-// Spring 2024 CSE3421 Classroom Application Project
-// Matthew Fitzgerald, Donovan Murphy, David Tran, Justas Kuskevicius
-
 # Classroom App #
 ## Spring 2024 CSE3421 Classroom Application Project ##
 
