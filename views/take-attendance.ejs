@@ -2,17 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Take Attendance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h1>Attendance Page</h1>
-  <p>Add the Take attendance functionality here</p>
-  <a href="/">Back to Home</a>
+  <h1> Take Attendance </h1>
+  <% ['CSE 3421', 'CSE 4001', 'CSE 4002', 'CSE 4280'].forEach((className, i) => { %>
+    <div class="class-container" onclick="toggleStudents(<%= i %>)">
+      <%= className %>
+    </div>
+    <div id="students<%= i %>" class="student-list">
+      <% ['Robert Plant', 'Axl Rose ', 'Eddie Van Halen', 'Ozzy Osbourne', 'David Guetta', 'Calvin Harris', 'Lil Wayne', 'Rihanna', 'Avici', 'Barack Obama'].forEach(student => { %>
+    <div class="student-item">
+      <span class="student-name"><%= student %></span>
+      <button onclick="toggleAttendance(this)">Absent</button>
+        </div>
+      <% }) %>
+      <button class="submit-button">Submit</button>
+    </div>
+  <% }) %>
+      <a href="/">Back to Home</a>
+  <script>
+    function toggleStudents(index) {
+      var studentsList = document.getElementById('students' + index);
+      studentsList.style.display = studentsList.style.display === 'block' ? 'none' : 'block';
+    }
+    function toggleAttendance(button) {
+      button.textContent = button.textContent === 'Here' ? 'Absent' : 'Here';
+    }
+  </script>
 </body>
 </html>
-
