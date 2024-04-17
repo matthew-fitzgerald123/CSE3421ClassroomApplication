@@ -13,6 +13,6 @@
 ### "node server.js" ###
 
 3. go to project page
-### open http://localhost:3000 in web browser###
+### open http://localhost:3000 in web browser ###
 
 
