@@ -1,5 +1,4 @@
-# Classroom App #
-## Spring 2024 CSE3421 Classroom Application Project ##
+# Spring 2024 CSE3421 Classroom Application Project #
 
 ## Running Instructions
 
