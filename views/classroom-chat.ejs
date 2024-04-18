@@ -8,11 +8,119 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
+  <style>
+    /* Additional CSS styles for the chat container */
+    .chat-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .chat-title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .subtitle {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .chat-form {
+      margin-top: 20px;
+    }
+    .chat-input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .chat-messages {
+      margin-top: 20px;
+    }
+    .chat-message {
+      margin-bottom: 10px;
+    }
+    .reply-form {
+      margin-left: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Classroom Chat Page</h1>
-  <p>Add the Classroom Chat functionality here</p>
-  <a href="/">Back to Home</a>
+  <div class="chat-container">
+    <div class="chat-title">Classroom Chat</div>
+    <div class="subtitle">Questions?</div>
+    
+    <!-- Form for submitting chat messages -->
+    <form class="chat-form" onsubmit="submitMessage(event)">
+      <textarea class="chat-input" name="message" rows="3" placeholder="Type your message here..." required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+    
+    <!-- Container for displaying chat messages -->
+    <div class="chat-messages" id="chatMessages"></div>
+    
+    <a href="/">Back to Home</a>
+  </div>
+
+  <script>
+    var replyTo = null;
+
+    function submitMessage(event) {
+      event.preventDefault();
+      
+      // Get message from the form
+      var message = event.target.elements.message.value.trim();
+      
+      if (message) {
+        // Create a new message element
+        var messageElement = document.createElement('div');
+        messageElement.classList.add('chat-message');
+        messageElement.textContent = message;
+
+        // If replying to a message, append it as a reply
+        if (replyTo) {
+          var replyForm = document.createElement('form');
+          replyForm.classList.add('reply-form');
+          replyForm.innerHTML = `
+            <textarea class="chat-input" name="message" rows="3" placeholder="Type your reply here..." required></textarea>
+            <button type="submit">Reply</button>
+          `;
+          messageElement.appendChild(replyForm);
+          replyForm.addEventListener('submit', submitReply);
+          replyTo = null; // Reset replyTo after submitting reply
+        }
+
+        // Append the message to the chat container
+        document.getElementById('chatMessages').appendChild(messageElement);
+
+        // Clear the message input
+        event.target.elements.message.value = '';
+      }
+    }
+
+    function submitReply(event) {
+      event.preventDefault();
+
+      // Get message from the reply form
+      var message = event.target.elements.message.value.trim();
+
+      if (message) {
+        // Create a new reply element
+        var replyElement = document.createElement('div');
+        replyElement.classList.add('chat-message');
+        replyElement.textContent = message;
+
+        // Append the reply to the message being replied to
+        var parentMessage = event.target.parentNode;
+        parentMessage.appendChild(replyElement);
+
+        // Clear the reply input
+        event.target.elements.message.value = '';
+      }
+    }
+
+    function replyToMessage() {
+      replyTo = this.parentNode.parentNode;
+      event.target.parentNode.querySelector('textarea').focus();
+    }
+  </script>
 </body>
 </html>
-
