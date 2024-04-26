@@ -10,45 +10,46 @@
 </head>
 <body>
   <h1> Take Attendance </h1>
-  <% ['CSE 3421', 'CSE 4001', 'CSE 4002', 'CSE 4280'].forEach((className, i) => { %>
-    <div class="class-container" onclick="toggleStudents(<%= i %>)">
-      <%= className %>
-    </div>
-    <div id="students<%= i %>" class="student-list">
-      <% ['Robert Plant', 'Axl Rose ', 'Eddie Van Halen', 'Ozzy Osbourne', 'David Guetta', 'Calvin Harris', 'Lil Wayne', 'Rihanna', 'Avici', 'Barack Obama'].forEach(student => { %>
-        <div class="student-item">
-          <span class="student-name"><%= student %></span>
-          <button onclick="toggleAttendance(this)">Absent</button>
-        </div>
-      <% }) %>
-      <!-- Add a form for submitting attendance -->
-      <form id="attendanceForm<%= i %>" class="attendance-form" onsubmit="submitAttendance(event)">
-        <input type="hidden" name="className" value="<%= className %>">
-        <button type="submit" class="submit-button">Submit</button>
-      </form>
-    </div>
-  <% }) %>
+  <form id="attendanceForm" class="attendance-form" onsubmit="submitAttendance(event)">
+    <% classList.forEach((student) => { %>
+      <div class="student-item">
+        <span class="student-name"><%= student.name %></span>
+        <button type="button" onclick="toggleAttendance(this, <%= student.id %>)" class="<%= student.attendance_status === 'Here' ? 'present' : 'absent' %>">
+          <%= student.attendance_status %>
+        </button>
+      </div>
+    <% }) %>
+    <button type="submit" class="submit-button">Submit</button>
+  </form>
   <a href="/">Back to Home</a>
-
   <script>
-    function toggleStudents(index) {
-      var studentsList = document.getElementById('students' + index);
-      studentsList.style.display = studentsList.style.display === 'block' ? 'none' : 'block';
+    var attendanceUpdates = [];
+    function toggleAttendance(button, studentId) {
+      var currentStatus = button.textContent;
+      var newStatus = currentStatus === 'Here' ? 'Absent' : 'Here';
+      button.textContent = newStatus;
+      button.className = newStatus === 'Here' ? 'present' : 'absent';
+      attendanceUpdates[studentId] = newStatus;
     }
-
-    function toggleAttendance(button) {
-      button.textContent = button.textContent === 'Here' ? 'Absent' : 'Here';
-    }
-
     function submitAttendance(event) {
       event.preventDefault();
-      var form = event.target;
-      var className = form.querySelector('input[name="className"]').value;
-      // Simulate processing attendance
-      setTimeout(function() {
-        alert("Attendance for " + className + " has been processed!");
-        window.location.href = "/"; // Redirect to the home page
-      }, 2000); // 2000 milliseconds = 2 seconds
+      var updates = Object.keys(attendanceUpdates).map(studentId => ({
+        studentId: studentId,
+        attendanceStatus: attendanceUpdates[studentId]
+      }));
+      fetch('/update-attendance', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updates)
+      }).then(response => {
+        if (response.ok) {
+          window.location.href = '/take-attendance';
+        } else {
+          alert('Failed to update attendance. Please try again.');
+        }
+      });
     }
   </script>
 </body>

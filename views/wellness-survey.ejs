@@ -4,131 +4,51 @@
   <meta charset="UTF-8">
   <title>Wellness Survey</title>
   <link rel="stylesheet" href="/styles.css">
-  <style>
-    /* Additional CSS styles for the survey form */
-    .question {
-      margin-bottom: 20px;
-    }
-    label {
-      font-weight: bold;
-    }
-    input[type="number"] {
-      width: 50px;
-    }
-    textarea {
-      width: 100%;
-      height: 100px;
-    }
-    .error {
-      color: red;
-    }
-  </style>
 </head>
 <body>
   <h1>Wellness Survey</h1>
-  <form id="surveyForm">
+  <form id="surveyForm" action="/submit-survey" method="post">
     <div class="question">
       <label for="studentName">Select Your Name:</label>
-      <select id="studentName" name="studentName" required>
+      <select id="studentName" name="studentId" required>
         <option value="">Select Name</option>
-        <% ['Robert Plant', 'Axl Rose ', 'Eddie Van Halen', 'Ozzy Osbourne', 'David Guetta', 'Calvin Harris', 'Lil Wayne', 'Rihanna', 'Avici', 'Barack Obama'].forEach(student => { %>
-          <option value="<%= student %>"><%= student %></option>
-        <% }) %>
+        <% students.forEach(function(student) { %>
+          <option value="<%= student.id %>"><%= student.name %></option>
+      <% }) %>
       </select>
       <span class="error" id="studentNameError"></span>
     </div>
     <div class="question">
       <label>How is your day going?</label>
-      <input type="number" name="dayRating" min="1" max="5" required>
+      <input class="questionNumber" type="number" name="dayRating" min="1" max="5" required>
       <span class="error" id="dayRatingError"></span>
     </div>
     <div class="question">
       <label>How are you feeling physically?</label>
-      <input type="number" name="physicalRating" min="1" max="5" required>
+      <input class="questionNumber" type="number" name="physicalRating" min="1" max="5" required>
       <span class="error" id="physicalRatingError"></span>
     </div>
     <div class="question">
       <label>How are you feeling mentally?</label>
-      <input type="number" name="mentalRating" min="1" max="5" required>
+      <input class="questionNumber" type="number" name="mentalRating" min="1" max="5" required>
       <span class="error" id="mentalRatingError"></span>
     </div>
     <div class="question">
       <label>How is your overall well-being?</label>
-      <input type="number" name="wellBeingRating" min="1" max="5" required>
+      <input class="questionNumber" type="number" name="wellBeingRating" min="1" max="5" required>
       <span class="error" id="wellBeingRatingError"></span>
     </div>
     <div class="question">
       <label>How are you coping with stress?</label>
-      <input type="number" name="stressRating" min="1" max="5" required>
+      <input class="questionNumber" type="number" name="stressRating" min="1" max="5" required>
       <span class="error" id="stressRatingError"></span>
     </div>
     <div class="question">
       <label>Any additional comments?</label>
-      <textarea name="comments" rows="4"></textarea>
+      <textarea class ="commentsClass" name="comments" rows="4"></textarea>
     </div>
-    <button type="submit">Submit</button>
+    <button type="submit" class="submit-button">Submit</button>
     <a href="/">Back to Home</a>
   </form>
-
-  <script>
-    document.getElementById('surveyForm').addEventListener('submit', function(event) {
-      event.preventDefault(); // Prevent the form from submitting normally
-      
-      // Validate form inputs
-      var studentName = document.getElementById('studentName').value;
-      if (!studentName) {
-        document.getElementById('studentNameError').textContent = "Please select your name.";
-        return;
-      } else {
-        document.getElementById('studentNameError').textContent = "";
-      }
-
-      var dayRating = document.getElementsByName('dayRating')[0].value;
-      if (dayRating < 1 || dayRating > 5) {
-        document.getElementById('dayRatingError').textContent = "Please enter a rating between 1 and 5.";
-        return;
-      } else {
-        document.getElementById('dayRatingError').textContent = "";
-      }
-
-      var physicalRating = document.getElementsByName('physicalRating')[0].value;
-      if (physicalRating < 1 || physicalRating > 5) {
-        document.getElementById('physicalRatingError').textContent = "Please enter a rating between 1 and 5.";
-        return;
-      } else {
-        document.getElementById('physicalRatingError').textContent = "";
-      }
-
-      var mentalRating = document.getElementsByName('mentalRating')[0].value;
-      if (mentalRating < 1 || mentalRating > 5) {
-        document.getElementById('mentalRatingError').textContent = "Please enter a rating between 1 and 5.";
-        return;
-      } else {
-        document.getElementById('mentalRatingError').textContent = "";
-      }
-
-      var wellBeingRating = document.getElementsByName('wellBeingRating')[0].value;
-      if (wellBeingRating < 1 || wellBeingRating > 5) {
-        document.getElementById('wellBeingRatingError').textContent = "Please enter a rating between 1 and 5.";
-        return;
-      } else {
-        document.getElementById('wellBeingRatingError').textContent = "";
-      }
-
-      var stressRating = document.getElementsByName('stressRating')[0].value;
-      if (stressRating < 1 || stressRating > 5) {
-        document.getElementById('stressRatingError').textContent = "Please enter a rating between 1 and 5.";
-        return;
-      } else {
-        document.getElementById('stressRatingError').textContent = "";
-      }
-
-      // Simulate submission with a delay
-      setTimeout(function() {
-        alert("Thank you for completing the survey!");
-        window.location.href = "/"; // Redirect to the home page
-      }, 2000); // 2000 milliseconds = 2 seconds
-    });
-  </script>
 </body>
 </html>
