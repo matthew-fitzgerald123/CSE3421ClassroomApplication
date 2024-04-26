@@ -5,10 +5,13 @@
 1. download repo, cd to main project directory 
 ### "cd CSE3421ClassroomApplication" ###
 
-2. run the server (You may need to install some dependencies before it can run succesfully)
+2. create the database backend (pip install sqlite 3 if you don't have it)
+### "python3 database_script.py" ###
+
+3. run the server (You may need to install some dependencies before it can run succesfully)
 ### "node server.js" ###
 
-3. go to project page
+4. go to project page
 ### open http://localhost:3000 in web browser ###
 
 
